@@ -1,0 +1,15 @@
+type zkProof @createModel(accountRelation: LIST, description: "A zero-knowledge proof entry") 
+@createIndex(fields: [{ path: "vccomm" }]) {
+  proof: String! @string(maxLength: 5000)
+  publicSignals: [String!]! @list(maxLength: 100) @string(maxLength: 500)
+  createdAt: DateTime!
+  orgDid: String! @string(maxLength: 500)
+  vccomm: String! @string(maxLength: 500)
+}
+type zkRevoke @createModel(accountRelation: LIST, description: "A zero-knowledge revoke proof entry")
+@createIndex(fields: [{ path: "vccomm" }]) {
+  proof: String! @string(maxLength: 5000)
+  publicSignals: [String!]! @list(maxLength: 100) @string(maxLength: 500)
+  createdAt: DateTime!
+  vccomm: String! @string(maxLength: 500)
+}

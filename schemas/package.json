@@ -1,0 +1,35 @@
+{
+    "name": "@richcanvas/myorgwallet-schemas",
+    "version": "1.0.0",
+    "main": "dist/commonjs/index.js",
+    "directories": {
+      "src": "src",
+      "dist": "dist"
+    },
+    "files": [
+      "src",
+      "dist"
+    ],
+    "injectEnvironmentFiles": [
+      ".env.yarn"
+    ],
+    "scripts": {
+      "build": "tsc -b .",
+      "clean": "rimraf node_modules",
+      "models:create-composite": "composedb composite:create models/zkproof.graphql  --output=composites/zkproof-composite.json --did-private-key=00d9293c83a9d3697d62e18575db2e89aa4a206c7139ddadcb83ddde20b68615",
+      "models:deploy-composite": "composedb composite:deploy composites/zkproof-composite.json --ceramic-url=http://localhost:7007  --did-private-key=00d9293c83a9d3697d62e18575db2e89aa4a206c7139ddadcb83ddde20b68615",
+      "models:compile-composite": "composedb composite:compile composites/zkproof-composite.json src/definitions/ts/zkproof.ts --ceramic-url=http://localhost:7007 && composedb composite:compile composites/zkproof-composite.json src/definitions/json/zkproof.json --ceramic-url=http://localhost:7007",
+      "graphql-server": "composedb graphql:server --ceramic-url=http://localhost:7007 --graphiql ./src/definitions/json/zkproof.json --port=7007"
+    },
+    "dependencies": {
+      "@composedb/types": "^0.6.0",
+      "dotenv": "^16.0.0"
+    },
+    "devDependencies": {
+      "@ceramicnetwork/cli": "^2.3.1",
+      "@composedb/cli": "^0.6.1",
+      "@glazed/devtools": "^0.2.0",
+      "@types/node": "^16.11.6"
+    }
+  }
+  

@@ -1,0 +1,8 @@
+{
+    "network": {
+      "name": "inmemory"
+    },
+    "http-api": {
+      "admin-dids": ["did:key:z6MknKDeWCJhuHTBTYWjXPpXRinZ2dfXdrEZrsDe3gb2yMR"]
+  }
+}

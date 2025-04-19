@@ -1,0 +1,8 @@
+{
+    "ceramic": {
+      "url": "http://localhost:7007"
+    },
+    "graphql": {
+      "port": 5001
+    }
+  }
