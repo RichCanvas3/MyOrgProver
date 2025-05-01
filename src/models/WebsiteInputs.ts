@@ -1,5 +1,5 @@
 export interface WebsiteInputs {
-  orgDID: number, 
+  did: number, 
   issuerDID: number,
   credentialHash: number
   credentialCommitment: number

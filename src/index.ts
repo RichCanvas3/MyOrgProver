@@ -11,7 +11,6 @@ import ipfsStorage from './services/ipfsStore.js';
 
 
 
-import { DIDSession } from 'did-session';
 import { RevokedkeysCircuit } from './circuits/revokedkeys.js';
 
 const app = express();
@@ -77,7 +76,7 @@ app.post('/api/proof/checkproof', async (req: CheckProofRequest, res: Response) 
 
   interface CommitmentRequest extends Request {
     body: {
-      orgDidHash: number;
+      didHash: number;
       issuerDidHash: number;
       vcHash: number;
     };
@@ -87,9 +86,9 @@ app.post('/api/proof/commitment', async (req: CommitmentRequest, res: Response) 
 
   try {
     console.info("ok lets do this")
-    const { orgDidHash, issuerDidHash, vcHash } = req.body;
+    const { didHash, issuerDidHash, vcHash } = req.body;
     const poseidon = await buildPoseidon();
-    const leafHash = poseidon.F.toObject(poseidon([orgDidHash, vcHash]));
+    const leafHash = poseidon.F.toObject(poseidon([didHash, vcHash]));
     const commitmentHash = poseidon.F.toObject(poseidon([issuerDidHash, leafHash]));
     console.info("return hash: ", commitmentHash)
     res.json(commitmentHash.toString());
@@ -101,9 +100,8 @@ app.post('/api/proof/commitment', async (req: CommitmentRequest, res: Response) 
 
 interface ProofRequest extends Request {
     body: {
-      inputs: { orgDidHash: number; issuerDidHash: number, vcHash: number, commitment: number };
-      session: string;
-      orgDid: string;
+      inputs: { didHash: number; issuerDidHash: number, vcHash: number, commitment: number };
+      did: string;
       commitment: string;
     };
   }
@@ -117,12 +115,12 @@ interface ProofRequest extends Request {
 // Create Proof Endpoint
 app.post('/api/proof/create', async (req: ProofRequest, res: Response) => {
 
-  const { inputs, session: serializedSession, orgDid, commitment } = req.body;
+  const { inputs, did, commitment } = req.body;
 
-  console.info("api inputs: ", orgDid, commitment)
+  console.info("api inputs: ", did, commitment)
   try {
     const websiteInputs : WebsiteInputs = {
-        orgDID: inputs.orgDidHash,
+        did: inputs.didHash,
         issuerDID: inputs.issuerDidHash,
         credentialHash: inputs.vcHash, 
         credentialCommitment: inputs.commitment
@@ -137,19 +135,15 @@ app.post('/api/proof/create', async (req: ProofRequest, res: Response) => {
     let verifyResult = await websiteCircuit.verifyProof(result.proof, result.publicSignals)
     console.info(" --------- verify zkProof: ", verifyResult)
     
-    if (serializedSession) {
-        const session = await DIDSession.fromSession(serializedSession);
-        const proofUrl = await ipfsStorage.storeProof(orgDid, commitment,  {
-          proof: result.proof,
-          publicSignals: result.publicSignals,
-        });
-    
-        console.info("proof Url: ", proofUrl)
 
+    const proofUrl = await ipfsStorage.storeProof(did, commitment,  {
+      proof: result.proof,
+      publicSignals: result.publicSignals,
+    });
 
+    console.info("proof Url: ", proofUrl)
+    res.json({...result, proofUrl});
 
-        res.json({...result, proofUrl});
-    }
 
   } catch (error) {
     console.info("..... error: ", error)
@@ -173,12 +167,11 @@ app.post('/api/proof/removerevoke', async (req: ProofRemoveRequest, res: Respons
 app.post('/api/proof/revoke', async (req: ProofRequest, res: Response) => {
 
     
-    const { session: serializedSession, commitment, orgDid } = req.body;
+    const { commitment, did } = req.body;
     //console.info("...... revoke ........")
     //console.info("body: ", req.body)
-    //console.info(" session: ", serializedSession)
     //console.info(" commitment: ", commitment)
-    //console.info(" orgDid: ", orgDid)
+    //console.info(" did: ", did)
   
     // generate revoke proof
     try {

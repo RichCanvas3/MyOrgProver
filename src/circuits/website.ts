@@ -16,13 +16,13 @@ export class WebsiteCircuit extends BaseCircuit {
 
 
   private validateInputs(inputs: WebsiteInputs): void {
-    console.info("org: ", inputs.orgDID.toString()) 
+    console.info("did: ", inputs.did.toString()) 
     console.info("issuer: ", inputs.issuerDID.toString()) 
     console.info("credentialHash: ", inputs.credentialHash.toString()) 
     console.info("credentialCommitment: ", inputs.credentialCommitment.toString()) 
 
-    if (!inputs.issuerDID || !inputs.orgDID || !inputs.credentialHash || !inputs.credentialCommitment) {
-      throw new Error('Website circuit requires inputs "orgDidHash" and "credentialHash" and "commitment"');
+    if (!inputs.issuerDID || !inputs.did || !inputs.credentialHash || !inputs.credentialCommitment) {
+      throw new Error('Website circuit requires inputs "didHash" and "credentialHash" and "commitment"');
     }
 
     

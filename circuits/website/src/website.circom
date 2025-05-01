@@ -3,7 +3,7 @@ pragma circom 2.0.0;
 include "poseidon.circom";
 
 template WebsiteOwnershipProof() {
-    signal input orgDID;
+    signal input did;
     signal input issuerDID;
     signal input credentialHash;
     signal input credentialCommitment;
@@ -11,7 +11,7 @@ template WebsiteOwnershipProof() {
     // Compute a hash of the credential's key fields (org DID and credentialHash).
     // This represents the credential's content commitment (or Merkle leaf).
     component hashLeaf = Poseidon(2);
-    hashLeaf.inputs[0] <== orgDID;
+    hashLeaf.inputs[0] <== did;
     hashLeaf.inputs[1] <== credentialHash;
     signal leafHash;
     leafHash <== hashLeaf.out;
@@ -31,5 +31,5 @@ template WebsiteOwnershipProof() {
     // That part is omitted here for brevity, but would involve additional signals and constraints.)
 }
 
-component main {public [issuerDID, orgDID, credentialCommitment]} = WebsiteOwnershipProof();
+component main {public [issuerDID, did, credentialCommitment]} = WebsiteOwnershipProof();
 

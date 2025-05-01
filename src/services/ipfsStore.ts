@@ -107,6 +107,7 @@ export class IPFSStorage {
   // Store data in IPFS and return cid
   async storeProof(orgDid: string, vccomm: string, proofData: any): Promise<string> {
 
+    console.info("********** store proof *********")
     const client = await this.initializeClient();
 
     let proofDataUpdated = {
@@ -118,7 +119,7 @@ export class IPFSStorage {
     };
 
     const cid = await uploadJSON(client, proofDataUpdated)
-    console.info("cid: ", cid)
+    console.info("*************** done cid: ", cid)
 
     return cid
 
@@ -134,6 +135,7 @@ export class IPFSStorage {
   async storeRevoke(vccomm: string, proofData: any): Promise<string> {
     const client = await this.initializeClient();
 
+    console.info("store revoke")
     let proofDataUpdated = {
       proof: JSON.stringify(this.replaceQuotes(proofData.proof)),
       publicSignals: this.replaceQuotes(proofData.publicSignals),
