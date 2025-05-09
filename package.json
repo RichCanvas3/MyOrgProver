@@ -7,7 +7,7 @@
     "build": "tsc && npm run copy:circuits",
     "copy:circuits": "copyfiles -u 1 'circuits/**/*' dist/circuits/",
     "start": "node --trace-warnings dist/main.js  ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No tests configured.\""
   },
   "keywords": [],
   "author": "",
