@@ -1,6 +1,9 @@
 // ---- Main App from index
 import app from "./index.js";
+
 const PORT = process.env.PORT || 3051;
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
+
 /*
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -43,6 +46,6 @@ async function runProof() {
   runProof();
 */
 app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+    console.log(`🚀 Server running at ${BASE_URL}`);
 });
 //# sourceMappingURL=main.js.map
