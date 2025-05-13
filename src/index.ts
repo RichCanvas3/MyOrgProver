@@ -190,7 +190,7 @@ app.post('/api/proof/removerevoke', async (req: ProofRemoveRequest, res: Respons
 
     const { proof } = req.body;
     
-    await ipfsStorage.storeRemoveRevokes(proof);
+    //await ipfsStorage.storeRemoveRevokes(proof);
 })
     
 
@@ -249,13 +249,13 @@ app.post('/api/proof/revoke', async (req: ProofRequest, res: Response) => {
       let resultProofInfo = await revokedkeysCircuit.generateProof(inputs)
       let verifyResult = await revokedkeysCircuit.verifyProof(resultProofInfo.proof, resultProofInfo.publicSignals)
 
-      const proofUrl = await ipfsStorage.storeRevoke(commitment,  {
-          proof: resultProofInfo.proof,
-          publicSignals: resultProofInfo.publicSignals,
-      });
+      //const proofUrl = await ipfsStorage.storeRevoke(commitment,  {
+      //    proof: resultProofInfo.proof,
+      //    publicSignals: resultProofInfo.publicSignals,
+      //});
 
-      console.info("revoke proof url: ", proofUrl)
-      res.json({...resultProofInfo, proofUrl});
+      //console.info("revoke proof url: ", proofUrl)
+      //res.json({...resultProofInfo, proofUrl});
 
 
   
