@@ -1,3 +1,37 @@
+# MyOrgProver
+
+## Goals
+
+## Requirements
+
+* [NodeJS](https://nodejs.dev/en/)
+* [npm](https://www.npmjs.com/)
+
+## Setup
+
+### 1. Install Dependencies
+
+When installing dependencies, make sure the node version is up-to-date. Check the current node version with `node -v`. Update note with `nvm install node`.
+
+```sh
+npm install
+```
+
+### 2. Run Build
+
+```sh
+npm run build
+```
+
+### 3. Start Prover
+
+```sh
+open http://localhost:3051
+
+npm run start
+```
+
+## Ryan's Notes
 
 rm -rf node_modules package-lock.json dist
 npm install
@@ -27,7 +61,7 @@ ceramic daemon --network inmemory
 
 ceramic daemon --network=inmemory
 
-// I installed cirom from 
+// I installed cirom from
 git clone https://github.com/iden3/circom.git
 cd circom
 cargo build --release
@@ -44,9 +78,9 @@ snarkjs powersoftau prepare phase2 pot12_0001.ptau pot12_final.ptau -v
 snarkjs powersoftau new bn128 14 pot14_0000.ptau -v
 snarkjs powersoftau prepare phase2 pot14_0000.ptau pot14_final.ptau -v
 
-circom circuits/website/src/website.circom --r1cs --wasm --sym -l node_modules/circomlib/circuits -o circuits/website/build/ 
+circom circuits/website/src/website.circom --r1cs --wasm --sym -l node_modules/circomlib/circuits -o circuits/website/build/
 npx snarkjs groth16 setup circuits/website/build/website.r1cs pot12_final.ptau circuits/website/build/website.zkey
-npx snarkjs zkey contribute circuits/website/build/website.zkey circuits/website/build/website.zkey --name="Second contribution" 
+npx snarkjs zkey contribute circuits/website/build/website.zkey circuits/website/build/website.zkey --name="Second contribution"
 npx snarkjs zkey export verificationkey circuits/website/build/website.zkey circuits/website/build/verification_key.json
 
 

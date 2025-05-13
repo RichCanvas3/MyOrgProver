@@ -3,7 +3,18 @@
 import app from "./index.js";
 import * as snarkjs from 'snarkjs';
 import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+// Resolve file paths
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+
+// Port and base URL setup
 const PORT = process.env.PORT || 3051;
+const BASE_URL = process.env.BASE_URL || `http://localhost:${PORT}`;
+
 
 
 /*
@@ -48,7 +59,7 @@ async function runProof() {
   runProof();
 */
 
-
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at ${BASE_URL}`);
 });
+
