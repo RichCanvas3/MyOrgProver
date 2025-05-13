@@ -7,7 +7,7 @@ import { buildPoseidon, newMemEmptyTrie } from 'circomlibjs';
 
 import { WebsiteInputs } from "./models/WebsiteInputs.js";
 import { WebsiteCircuit } from "./circuits/website.js"
-import ipfsStorage from './services/ipfsStore.js';
+//import ipfsStorage from './services/ipfsStore.js';
 
 
 
