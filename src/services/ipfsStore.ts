@@ -124,6 +124,24 @@ export class IPFSStorage {
     return cid
 
   }
+  async getProofJson(orgDid: string, vccomm: string, proofData: any): Promise<string> {
+
+    console.info("********** store proof *********")
+    const client = await this.initializeClient();
+
+    let proofDataUpdated = {
+      proof: JSON.stringify(this.replaceQuotes(proofData.proof)),
+      publicSignals: this.replaceQuotes(proofData.publicSignals),
+      createdAt: new Date().toISOString(),
+      vccomm: vccomm,
+      orgDid: orgDid
+    };
+
+    const json = JSON.stringify(proofDataUpdated)
+
+    return json
+
+  }
 
   async storeRemoveRevokes(proofUrl: string): Promise<boolean> {
 

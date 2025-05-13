@@ -63,12 +63,16 @@ app.post('/api/proof/create', (req, res) => __awaiter(void 0, void 0, void 0, fu
         // verify proof just created
         let verifyResult = yield websiteCircuit.verifyProof(result.proof, result.publicSignals);
         console.info(" --------- verify zkProof: ", verifyResult);
-        const proofUrl = yield ipfsStorage.storeProof(did, commitment, {
+        //const proofUrl = await ipfsStorage.storeProof(did, commitment,  {
+        //  proof: result.proof,
+        //  publicSignals: result.publicSignals,
+        //});
+        const proofJson = yield ipfsStorage.getProofJson(did, commitment, {
             proof: result.proof,
             publicSignals: result.publicSignals,
         });
-        console.info("proof Url: ", proofUrl);
-        res.json(Object.assign(Object.assign({}, result), { proofUrl }));
+        console.info("proof json: ", proofJson);
+        res.json(Object.assign(Object.assign({}, result), { proofJson }));
     }
     catch (error) {
         console.info("..... error: ", error);

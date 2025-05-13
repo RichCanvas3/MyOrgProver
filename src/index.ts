@@ -136,13 +136,18 @@ app.post('/api/proof/create', async (req: ProofRequest, res: Response) => {
     console.info(" --------- verify zkProof: ", verifyResult)
     
 
-    const proofUrl = await ipfsStorage.storeProof(did, commitment,  {
+    //const proofUrl = await ipfsStorage.storeProof(did, commitment,  {
+    //  proof: result.proof,
+    //  publicSignals: result.publicSignals,
+    //});
+
+    const proofJson = await ipfsStorage.getProofJson(did, commitment,  {
       proof: result.proof,
       publicSignals: result.publicSignals,
     });
 
-    console.info("proof Url: ", proofUrl)
-    res.json({...result, proofUrl});
+    console.info("proof json: ", proofJson)
+    res.json({...result, proofJson});
 
 
   } catch (error) {

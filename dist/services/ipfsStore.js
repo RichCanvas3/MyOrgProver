@@ -104,6 +104,21 @@ export class IPFSStorage {
             return cid;
         });
     }
+    getProofJson(orgDid, vccomm, proofData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.info("********** store proof *********");
+            const client = yield this.initializeClient();
+            let proofDataUpdated = {
+                proof: JSON.stringify(this.replaceQuotes(proofData.proof)),
+                publicSignals: this.replaceQuotes(proofData.publicSignals),
+                createdAt: new Date().toISOString(),
+                vccomm: vccomm,
+                orgDid: orgDid
+            };
+            const json = JSON.stringify(proofDataUpdated);
+            return json;
+        });
+    }
     storeRemoveRevokes(proofUrl) {
         return __awaiter(this, void 0, void 0, function* () {
             const client = yield this.initializeClient();
