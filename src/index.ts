@@ -141,10 +141,36 @@ app.post('/api/proof/create', async (req: ProofRequest, res: Response) => {
     //  publicSignals: result.publicSignals,
     //});
 
-    const proofJson = await ipfsStorage.getProofJson(did, commitment,  {
-      proof: result.proof,
-      publicSignals: result.publicSignals,
-    });
+    
+    function replaceQuotes(obj: any): any {
+      if (typeof obj === 'string') {
+        // If it's a string, replace single quotes with double quotes
+        return obj.replace(/'/g, '"');
+      } else if (Array.isArray(obj)) {
+        // If it's an array, process each element recursively
+        return obj.map(item => replaceQuotes(item));
+      } else if (typeof obj === 'object' && obj !== null) {
+        // If it's an object, process each property recursively
+        const result: { [key: string]: any } = {};
+        forInstructions: for (const key in obj) {
+          result[key] = replaceQuotes(obj[key]);
+        }
+        return result;
+      }
+      return obj; // Return unchanged if not a string, array, or object
+    }
+
+
+    let proofDataUpdated = {
+      proof: JSON.stringify(replaceQuotes(result.proof)),
+      publicSignals: replaceQuotes(result.publicSignals),
+      createdAt: new Date().toISOString(),
+      vccomm: commitment,
+      orgDid: did
+    };
+
+    const proofJson = JSON.stringify(proofDataUpdated)
+
 
     console.info("proof json: ", proofJson)
     res.json({...result, proofJson});
